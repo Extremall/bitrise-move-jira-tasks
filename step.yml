@@ -16,9 +16,9 @@ description: |
 
   The step can also add custom value to the custom field in the Jira issue e.g. version of the app.
 
-website: https://github.com/orestesgaolin/bitrise-close-jira-tasks
-source_code_url: https://github.com/orestesgaolin/bitrise-close-jira-tasks
-support_url: https://github.com/orestesgaolin/bitrise-close-jira-tasks/issues
+website: https://github.com/Extremall/bitrise-move-jira-tasks
+source_code_url: https://github.com/Extremall/bitrise-move-jira-tasks
+support_url: https://github.com/Extremall/bitrise-move-jira-tasks/issues
 host_os_tags:
   - osx-10.10
   - ubuntu-16.04

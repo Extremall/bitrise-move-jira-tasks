@@ -55,7 +55,7 @@ do
                 echo "Setting version of $task to $version"
                     query=$(jq -n \
                         --arg version $version \
-                        "{ fields: { $custom_jira_field: [ \$version ] } }"
+                        "{ fields: { $custom_jira_field:  \"$version\" } }"
                     );
 
                 curl \
