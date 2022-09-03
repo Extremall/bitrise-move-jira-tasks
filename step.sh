@@ -111,6 +111,8 @@ json=$(curl -s \
 
 count=$(echo $json | jq -r '.total')
 
+echo "issues count = $count"
+
 result=""
 for i in $(seq 1 $count);
 do
@@ -119,4 +121,8 @@ do
     result="$result $newline $sum"
 done
 
+echo "JIRA_DEPLOYED_LIST1: $JIRA_DEPLOYED_LIST"
+
 envman add --key JIRA_DEPLOYED_LIST --value "$result"
+
+echo "JIRA_DEPLOYED_LIST2: $JIRA_DEPLOYED_LIST"
