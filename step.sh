@@ -119,4 +119,4 @@ do
     result="$result $newline $sum"
 done
 
-JIRA_DEPLOYED_LIST=$result
+envman add --key JIRA_DEPLOYED_LIST --value "$result"
