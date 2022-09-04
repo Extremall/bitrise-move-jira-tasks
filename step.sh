@@ -131,12 +131,12 @@ count=$(echo $json | jq -r '.total')
 
 echo "issues count = $count"
 
+newline=$'\n'
 result=""
 for i in $(seq 1 $count);
 do
     sum=$(echo $json | jq -r ".issues[$i-1].fields.summary")
-    newline=$'\n'
-    result="$result $newline $sum"
+    result="$result $newline$sum"
 done
 
 envman add --key JIRA_DEPLOYED_LIST --value "$result"
