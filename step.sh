@@ -32,13 +32,24 @@ else
 fi
 
 if [ $from_git -gt 0 ]; then
-    echo "from git"
+    CLOSED_TASKS=$(git --no-pager log --pretty='format:%b' -n 100 | grep -oE "([A-Z]{$length}-[0-9]+)");
 else
-    echo "not from git"
+    query=$(jq -n \
+        --arg jql "project = $jira_project_name AND status = '$from_status' AND 'Platform[Dropdown]' = '🍏 iOS'" \
+        '{ jql: $jql, startAt: 0, maxResults: 100, fields: [ "id" ], fieldsByKeys: false }'
+    );
+
+
+    json=$(curl -s \
+        --request POST \
+        -H "Content-Type: application/json" \
+        -H "Authorization: Basic $jira_token" \
+        --data "$query" \
+        "$jira_url/rest/api/2/search"
+    );
+    
+    CLOSED_TASKS=$(echo $json | jq -r ".issues[].key" | grep -oE "([A-Z]{$length}-[0-9]+)")
 fi
-
-
-CLOSED_TASKS=$(git --no-pager log --pretty='format:%b' -n 100 | grep -oE "([A-Z]{$length}-[0-9]+)");
 
 echo $CLOSED_TASKS
 
