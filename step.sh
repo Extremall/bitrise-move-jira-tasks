@@ -55,6 +55,9 @@ echo $CLOSED_TASKS
 
 if [ -z "$CLOSED_TASKS" ]; then
     echo "No tasks to transition found in git log"
+    JIRA_DEPLOYED_LIST="There were not tasks in $from_status"
+    envman add --key JIRA_DEPLOYED_LIST --value "$JIRA_DEPLOYED_LIST"
+    echo "JIRA_DEPLOYED_LIST: $newline$JIRA_DEPLOYED_LIST"
     exit 0
 fi
 
