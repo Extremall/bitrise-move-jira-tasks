@@ -55,7 +55,7 @@ echo $CLOSED_TASKS
 
 if [ -z "$CLOSED_TASKS" ]; then
     echo "No tasks to transition found in git log"
-    JIRA_DEPLOYED_LIST="There were not tasks in $from_status"
+    JIRA_DEPLOYED_LIST="There were no tasks in $from_status"
     envman add --key JIRA_DEPLOYED_LIST --value "$JIRA_DEPLOYED_LIST"
     echo "JIRA_DEPLOYED_LIST: $newline$JIRA_DEPLOYED_LIST"
     exit 0
@@ -92,7 +92,7 @@ if [ $count -gt 0 ]; then
 
     JIRA_DEPLOYED_LIST=$result
 else
-    JIRA_DEPLOYED_LIST="There were not tasks in $from_status"
+    JIRA_DEPLOYED_LIST="There were no tasks in $from_status"
 fi
 
 echo "issues count = $count"
