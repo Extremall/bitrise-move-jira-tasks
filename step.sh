@@ -31,6 +31,13 @@ else
     echo "check_git is not null: $check_git"
 fi
 
+if [ $from_git -gt 0 ]; then
+    echo "from git"
+else
+    echo "not from git"
+fi
+
+
 CLOSED_TASKS=$(git --no-pager log --pretty='format:%b' -n 100 | grep -oE "([A-Z]{$length}-[0-9]+)");
 
 echo $CLOSED_TASKS
