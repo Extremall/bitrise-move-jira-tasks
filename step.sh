@@ -94,7 +94,7 @@ fi
 
 echo "issues count = $count"
 
-envman add --key JIRA_DEPLOYED_LIST --value "$result"
+envman add --key JIRA_DEPLOYED_LIST --value "$JIRA_DEPLOYED_LIST"
 
 echo "JIRA_DEPLOYED_LIST: $newline$JIRA_DEPLOYED_LIST"
 
