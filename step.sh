@@ -42,7 +42,7 @@ fi
 
 query=$(jq -n \
     --arg jql "project = $jira_project_name AND status = '$from_status'" \
-    '{ jql: $jql, startAt: 0, maxResults: 20, fields: [ "id" ], fieldsByKeys: false }'
+    '{ jql: $jql, startAt: 0, maxResults: 100, fields: [ "id" ], fieldsByKeys: false }'
 );
 
 echo "Query to be executed in Jira: $query"
@@ -108,7 +108,7 @@ done
 
 query=$(jq -n \
     --arg jql "project = $jira_project_name AND status = '$from_status' AND 'Platform[Dropdown]' = '🍏 iOS'" \
-    '{ jql: $jql, startAt: 0, maxResults: 50, fields: [ "id", "summary" ], fieldsByKeys: false }'
+    '{ jql: $jql, startAt: 0, maxResults: 100, fields: [ "id", "summary" ], fieldsByKeys: false }'
 );
 
 
