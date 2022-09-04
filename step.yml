@@ -95,6 +95,14 @@ inputs:
         This should be in format `customfield_xxxxx`
       is_expand: true
       is_required: false
+  - check_git: ""
+    opts:
+      title: "Checking git"
+      summary: "Check git for commits or use only jira status"
+      description: |
+        If it is >0 then git commits will be reviewed, otherwise only jira status will be used
+      is_expand: true
+      is_required: false
   - version: "$BITRISE_BUILD_NUMBER"
     opts:
       title: "App version"

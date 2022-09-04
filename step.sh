@@ -22,7 +22,18 @@ fi
 
 length=${#jira_project_name}
 
+from_git=1
+if [ -z "$check_git" ]; then
+    echo "check_git is null: $check_git"
+    from_git=0
+else
+    from_git=$check_git
+    echo "check_git is not null: $check_git"
+fi
+
 CLOSED_TASKS=$(git --no-pager log --pretty='format:%b' -n 100 | grep -oE "([A-Z]{$length}-[0-9]+)");
+
+echo $CLOSED_TASKS
 
 if [ -z "$CLOSED_TASKS" ]; then
     echo "No tasks to transition found in git log"
@@ -96,7 +107,7 @@ do
 done
 
 query=$(jq -n \
-    --arg jql "project = $jira_project_name AND status = 'WAITING FOR DEPLOY' AND 'Platform[Dropdown]' = '🍏 iOS'" \
+    --arg jql "project = $jira_project_name AND status = '$from_status' AND 'Platform[Dropdown]' = '🍏 iOS'" \
     '{ jql: $jql, startAt: 0, maxResults: 50, fields: [ "id", "summary" ], fieldsByKeys: false }'
 );
 
@@ -121,8 +132,4 @@ do
     result="$result $newline $sum"
 done
 
-echo "JIRA_DEPLOYED_LIST1: $JIRA_DEPLOYED_LIST"
-
 envman add --key JIRA_DEPLOYED_LIST --value "$result"
-
-echo "JIRA_DEPLOYED_LIST2: $JIRA_DEPLOYED_LIST"
