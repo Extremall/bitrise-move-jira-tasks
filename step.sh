@@ -59,6 +59,43 @@ if [ -z "$CLOSED_TASKS" ]; then
 fi
 
 query=$(jq -n \
+    --arg jql "project = $jira_project_name AND status = '$from_status' AND 'Platform[Dropdown]' = '🍏 iOS'" \
+    '{ jql: $jql, startAt: 0, maxResults: 100, fields: [ "id", "summary" ], fieldsByKeys: false }'
+);
+
+
+json=$(curl -s \
+    --request POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Basic $jira_token" \
+    --data "$query" \
+    "$jira_url/rest/api/2/search"
+);
+
+count=$(echo $json | jq -r '.total')
+
+if [ $count -gt 0 ]; then
+    newline=$'\n'
+    result=""
+    for i in $(seq 1 $count);
+    do
+        sum=$(echo $json | jq -r ".issues[$i-1].fields.summary")
+        result="$result $newline$sum"
+    done
+
+    JIRA_DEPLOYED_LIST=$result
+else
+    JIRA_DEPLOYED_LIST="There were not tasks in $from_status"
+fi
+
+echo "issues count = $count"
+
+envman add --key JIRA_DEPLOYED_LIST --value "$result"
+
+echo "JIRA_DEPLOYED_LIST: $newline$JIRA_DEPLOYED_LIST"
+
+
+query=$(jq -n \
     --arg jql "project = $jira_project_name AND status = '$from_status'" \
     '{ jql: $jql, startAt: 0, maxResults: 100, fields: [ "id" ], fieldsByKeys: false }'
 );
@@ -123,31 +160,3 @@ do
             ;;
     esac
 done
-
-query=$(jq -n \
-    --arg jql "project = $jira_project_name AND status = '$from_status' AND 'Platform[Dropdown]' = '🍏 iOS'" \
-    '{ jql: $jql, startAt: 0, maxResults: 100, fields: [ "id", "summary" ], fieldsByKeys: false }'
-);
-
-
-json=$(curl -s \
-    --request POST \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Basic $jira_token" \
-    --data "$query" \
-    "$jira_url/rest/api/2/search"
-);
-
-count=$(echo $json | jq -r '.total')
-
-echo "issues count = $count"
-
-newline=$'\n'
-result=""
-for i in $(seq 1 $count);
-do
-    sum=$(echo $json | jq -r ".issues[$i-1].fields.summary")
-    result="$result $newline$sum"
-done
-
-envman add --key JIRA_DEPLOYED_LIST --value "$result"
