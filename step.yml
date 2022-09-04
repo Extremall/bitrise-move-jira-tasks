@@ -111,3 +111,6 @@ inputs:
         You should use Bitrise env variable
       is_expand: true
       is_required: false
+
+outputs:
+  - JIRA_DEPLOYED_LIST: ""
