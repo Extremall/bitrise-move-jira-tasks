@@ -80,7 +80,11 @@ if [ $count -gt 0 ]; then
     for i in $(seq 1 $count);
     do
         sum=$(echo $json | jq -r ".issues[$i-1].fields.summary")
-        result="$result $newline$sum"
+        if [ ${#result} -gt 0 ]; then
+            result="$result $newline$sum"
+        else
+            result="$sum"
+        fi
     done
 
     JIRA_DEPLOYED_LIST=$result
