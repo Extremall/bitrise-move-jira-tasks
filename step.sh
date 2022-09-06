@@ -83,10 +83,11 @@ if [ $count -gt 0 ]; then
     for i in $(seq 1 $count);
     do
         sum=$(echo $json | jq -r ".issues[$i-1].fields.summary")
+        key=$(echo $json | jq -r ".issues[$i-1].key")
         if [ ${#result} -gt 0 ]; then
-            result="$result$newline$sum"
+            result="$result$newline$key $sum"
         else
-            result="$sum"
+            result="$key $sum"
         fi
     done
 
